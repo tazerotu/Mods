@@ -1,0 +1,13 @@
+{
+	"key.category.skillsmod.main": "Compétences",
+	"key.skillsmod.open": "Ouvrir les compétences",
+	"screen.skillsmod.title": "Compétences",
+	"screen.skillsmod.level": "Niv. %s",
+	"screen.skillsmod.xp": "%s / %s XP",
+	"skill.skillsmod.combat": "Combat",
+	"skill.skillsmod.exploration": "Exploration",
+	"skill.skillsmod.mining": "Minage",
+	"skill.skillsmod.woodcutting": "Bûcheronnage",
+	"skill.skillsmod.farming": "Agriculture",
+	"skill.skillsmod.fishing": "Pêche"
+}

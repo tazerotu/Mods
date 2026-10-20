@@ -1,0 +1,13 @@
+{
+	"key.category.skillsmod.main": "Skills",
+	"key.skillsmod.open": "Open Skills",
+	"screen.skillsmod.title": "Skills",
+	"screen.skillsmod.level": "Lv. %s",
+	"screen.skillsmod.xp": "%s / %s XP",
+	"skill.skillsmod.combat": "Combat",
+	"skill.skillsmod.exploration": "Exploration",
+	"skill.skillsmod.mining": "Mining",
+	"skill.skillsmod.woodcutting": "Woodcutting",
+	"skill.skillsmod.farming": "Farming",
+	"skill.skillsmod.fishing": "Fishing"
+}
