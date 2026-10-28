@@ -3,11 +3,14 @@
 	"id": "skillsmod",
 	"version": "${version}",
 	"name": "Skills",
-	"description": "Skill categories with experience bars.",
+	"description": "Skills that level up as you play, with traits that unlock along the way.",
 	"authors": [],
 	"license": "MIT",
-	"environment": "client",
+	"environment": "*",
 	"entrypoints": {
+		"main": [
+			"com.skillsmod.SkillsMod"
+		],
 		"client": [
 			"com.skillsmod.SkillsModClient"
 		]

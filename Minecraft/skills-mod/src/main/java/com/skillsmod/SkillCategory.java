@@ -18,7 +18,7 @@ public enum SkillCategory {
 	}
 
 	public String translationKey() {
-		return "skill." + SkillsModClient.MOD_ID + "." + id;
+		return "skill." + SkillsMod.MOD_ID + "." + id;
 	}
 
 	/** ARGB colour used for the label and the filled part of the bar. */

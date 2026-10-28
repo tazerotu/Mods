@@ -1,10 +1,13 @@
 package com.skillsmod;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+
+import java.util.UUID;
 
 /** Window listing every skill category with its experience bar. */
 public class SkillsScreen extends Screen {
@@ -70,10 +73,13 @@ public class SkillsScreen extends Screen {
 		int barX = left + PADDING;
 		int barW = PANEL_W - PADDING * 2;
 
+		// Read every frame, so the bars move while the window is open.
+		UUID player = Minecraft.getInstance().player.getUUID();
+
 		SkillCategory[] categories = SkillCategory.values();
 		for (int i = 0; i < categories.length; i++) {
 			SkillCategory category = categories[i];
-			SkillProgress progress = SkillData.get(category);
+			SkillProgress progress = SkillData.get(player, category);
 
 			int rowTop = top + TITLE_H + i * ROW_H;
 			int barY = rowTop + this.font.lineHeight + 3;

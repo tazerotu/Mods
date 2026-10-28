@@ -8,7 +8,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 
 public class SkillsModClient implements ClientModInitializer {
-	public static final String MOD_ID = "skillsmod";
+	public static final String MOD_ID = SkillsMod.MOD_ID;
 
 	private static final KeyMapping.Category CATEGORY =
 			KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MOD_ID, "main"));

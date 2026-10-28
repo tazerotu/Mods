@@ -11,7 +11,48 @@ A client-side [Fabric](https://fabricmc.net/) mod for Minecraft that adds a **Sk
 
 Each bar shows the category name and level, with the XP already earned and the XP needed to level up written above it (`340 / 500 XP`).
 
-> **Status:** early prototype. The window and its layout work, but the values shown are fixed demo numbers. XP gain, saving and level-ups are not implemented yet.
+Skills gain xp from what you do (harder actions give more), level up on an exponential curve, and unlock **traits** along the way.
+
+> **Status:** prototype. XP gain, level-ups and traits work, and the bars update live. Skill data is **not saved yet** (it resets when the game closes) and is read directly from the game, so it works in singleplayer / when hosting, not on a dedicated server.
+
+## Traits
+
+A trait does nothing until its skill reaches the unlock level, then improves every few levels up to a cap. Every number is in `Traits.java`.
+
+| Skill | Trait | Effect |
+|---|---|---|
+| Combat | Brute Force | bonus attack damage |
+| Combat | Iron Skin | bonus armor |
+| Exploration | Fall Training | takes less fall damage |
+| Exploration | Light Feet | moves faster |
+| Mining | Haste | mines faster with a pickaxe |
+| Mining | Sturdy Picks | chance a block costs no pickaxe durability |
+| Mining | Vein Miner | hold sneak: mines the whole ore vein (ores only) |
+| Mining | Prospector | chance of double ore drops |
+| Woodcutting | Haste | chops faster with an axe |
+| Woodcutting | Sturdy Axes | chance a block costs no axe durability |
+| Woodcutting | Tree Feller | hold sneak: fells the whole tree |
+| Farming | Growth Aura | passive: each second, a chance to bonemeal a random crop around you (chance and radius grow) |
+| Farming | Double Harvest | chance of double drops from mature crops |
+| Fishing | Treasure Hunter | better fishing loot (bonus Luck) |
+| Fishing | Sea Legs | less slowdown in water |
+
+## XP
+
+| Skill | XP comes from |
+|---|---|
+| Combat | kills: mob max health x 0.5 + its attack damage (halved for passive and baby mobs) |
+| Exploration | distance walked, and entering a biome for the first time (rare biomes give more) |
+| Mining | ores by rarity (coal 5 ... diamond 25, emerald 30, ancient debris 60), stone by hardness |
+| Woodcutting | logs (nether stems give a little more) |
+| Farming | fully grown crops only |
+| Fishing | each catch |
+
+Tune the amounts in `SkillXp.java` (`XP_MULTIPLIER` scales everything).
+
+## Level curve
+
+`xpToNext(level) = round(BASE_XP * GROWTH ^ (level - 1))`, with `BASE_XP = 50`, `GROWTH = 1.05` and `MAX_LEVEL = 100` at the top of `LevelCurve.java`. That makes level 2 cost 50 xp, level 50 cost 546 and level 100 about 124 000 xp in total.
 
 ## Usage
 
@@ -54,11 +95,18 @@ Keep the project folder outside `.minecraft/mods`. Only the finished jar belongs
 
 ```
 src/main/java/com/skillsmod/
-├── SkillsModClient.java   Entrypoint, registers the K key and opens the screen
+├── SkillsMod.java         Common entrypoint, hooks gameplay events
+├── SkillsModClient.java   Client entrypoint, registers the K key and opens the screen
 ├── SkillsScreen.java      The window and the experience bars
 ├── SkillCategory.java     The six categories (translation key + colour)
 ├── SkillProgress.java     Level / xp / xp needed for one skill
-└── SkillData.java         Placeholder data source (demo values)
+├── SkillData.java         Level and xp per player, level-up logic
+├── LevelCurve.java        The exponential level curve (3 constants)
+├── Scaling.java           Unlock / step / cap formula shared by all traits
+├── Traits.java            Every trait: numbers and effects
+├── SkillXp.java           How much xp each action is worth
+├── SkillEvents.java       Block breaks, kills and per-second checks
+└── VeinMiner.java         Breaks connected ores / logs
 src/main/resources/
 ├── fabric.mod.json
 └── assets/skillsmod/lang/ en_us.json, fr_fr.json
@@ -66,10 +114,13 @@ src/main/resources/
 
 ## Roadmap
 
+- [x] Award XP from gameplay (kills, mining, chopping, harvesting, fishing, exploring)
+- [x] Level-up thresholds (exponential curve)
+- [x] Traits
 - [ ] Save skill data per player
-- [ ] Award XP from gameplay (kills, mining, chopping, harvesting, fishing, exploring)
-- [ ] Level-up thresholds and level-up feedback
-- [ ] Replace the demo values in `SkillData`
+- [ ] Sync skill data to clients on dedicated servers
+- [ ] Level-up feedback (sound, message)
+- [ ] Ignore player-placed blocks for xp
 
 ## License
 
